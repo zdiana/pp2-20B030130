@@ -1,23 +1,20 @@
 import json
 
-# Load the JSON file
-with open('sample-data.json', 'r') as f:
-    data = json.load(f)
+jsondata = open('C:\CPP\PP2\TSIS4\sample-data.json').read()
 
-# Define the header for the output
-header = 'DN'.ljust(50) + 'Description'.ljust(25) + 'Speed'.ljust(8) + 'MTU\n'
-divider = '-' * 80 + '\n'
-
-# Generate the output string
-output = header + divider
-for item in data:
-    dn = item['fabric_intf_dn'].ljust(50)
-    description = item['descr'].ljust(25)
-    speed = item['eth_speed'].ljust(8) if 'eth_speed' in item else 'inherit'.ljust(8)
-    mtu = str(item['mtu']).rjust(6) if 'mtu' in item else ''
-    output += f"{dn} {description} {speed} {mtu}\n"
-
-output += divider
-
-# Print the output
-print(output)
+json_object = json.loads(jsondata)
+print(
+    "Interface Status")
+print(
+    "=======================================================================================")
+print(
+    "DN                                                 Description           Speed    MTU")
+print( 
+    "-------------------------------------------------- --------------------  ------  ------")
+imdata = json_object["imdata"]
+for i in imdata:
+        dn = i["l1PhysIf"]["attributes"]["dn"]
+        descr = i["l1PhysIf"]["attributes"]["descr"]
+        speed = i["l1PhysIf"]["attributes"]["speed"]
+        mtu = i["l1PhysIf"]["attributes"]["mtu"]
+        print("{0:50} {1:20} {2:7} {3:6}".format(dn,descr,speed,mtu))
